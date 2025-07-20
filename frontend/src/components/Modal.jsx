@@ -2,7 +2,7 @@ import { useRef } from "react";
 import axios from 'axios';
 
 export default function Modal({ isCorrect, solution, totalScore, scoreid, onNextLevel ,level}) {
-  const API = process.env.REACT_APP_API_URL;
+  const API = import.meta.env.VITE_API_URL;
   const updatedRef = useRef(false); // Prevent double submission
 
   const handlePlayAgain = async () => {
