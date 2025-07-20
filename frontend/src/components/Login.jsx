@@ -28,7 +28,7 @@ export default function Login() {
       const token = response.data.data[0].token;
       const name = response.data.data[0].username;
       const personid = response.data.data[0].personid;
-
+    
       if (token) {
         localStorage.setItem("token", token);
         localStorage.setItem("name", name);
@@ -51,11 +51,11 @@ export default function Login() {
   const handleGoogleSuccess = async (credentialResponse) => {
     const decoded = jwtDecode(credentialResponse.credential);
     const { email, name, iss } = decoded;
-    const password = name.replace(/\s+/g, ""); // remove inner spaces
+    const password = name.replace(/\s+/g, ""); 
     const part = iss.split(".");
-    const login_method = part.slice(1, 2)[0]; // usually 'google'
+    const login_method = part.slice(1, 2)[0]; 
 
-    // console.log("Google Login Info →", { email, password, login_method });
+    console.log("Google Login Info →", { email, password, login_method });
 
     try {
       const res = await axios.post(`${API}/google-login`, {

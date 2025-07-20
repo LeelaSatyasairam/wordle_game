@@ -66,7 +66,6 @@ useEffect(() => {
       const updatedGuesses = [...guesses, currentGuess];
       setGuesses(updatedGuesses);
       setCurrentGuess('');
-      console.log(solution);
 
       setKeyStatuses((prev) => {
         const newStatuses = { ...prev };
