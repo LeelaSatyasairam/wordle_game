@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("name");
   const id = localStorage.getItem("personid");
-  const API = "http://localhost:3000"; 
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const verifyUser = async () => {
