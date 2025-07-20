@@ -2,7 +2,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import PrivateRoute from './components/Privaterouter';
-import Wordle from './wordle';
+import Wordle from './Wordle';
 
 export default function App(){
 
