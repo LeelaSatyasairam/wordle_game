@@ -8,7 +8,7 @@ export default function Register(){
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
    const [note, setNote] = useState("");
-   const API = process.env.REACT_APP_API_URL;
+  const API = import.meta.env.VITE_API_URL;
 
     const handleregister = async (e)=>{
       e.preventDefault();

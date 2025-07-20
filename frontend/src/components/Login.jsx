@@ -11,7 +11,7 @@ export default function Login() {
   const [note, setNote] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const message = "✅Login successful ✅";
-  const API = process.env.REACT_APP_API_URL;
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (showPopup) {

@@ -28,7 +28,7 @@ function Wordle() {
 
   const navigate = useNavigate();
   const scoreid = localStorage.getItem('personid');
-  const API = process.env.REACT_APP_API_URL;
+  const API = import.meta.env.VITE_API_URL;
 
 // Create a function map
 const wordGetters = {
