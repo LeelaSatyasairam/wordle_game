@@ -1,4 +1,4 @@
-export default function Keyboard({ onKeyPress, block }) {
+export default function Keyboard({ onKeyPress}) {
   const KEYS = [
     ['Q','W','E','R','T','Y','U','I','O','P'],
     ['A','S','D','F','G','H','J','K','L'],
@@ -10,13 +10,11 @@ export default function Keyboard({ onKeyPress, block }) {
       {KEYS.map((row, i) => (
         <div className="key-row" key={i}>
           {row.map((key, j) => {
-            const isBlocked = block.includes(key.toLowerCase());
             return (
               <button
                 key={j}
                 onClick={() => onKeyPress(key)}
-                disabled={isBlocked}
-                style={{ cursor: isBlocked ? 'not-allowed' : 'pointer' }}
+                style={{ cursor: 'pointer' }}
                 className="key"
               >
                 {key}

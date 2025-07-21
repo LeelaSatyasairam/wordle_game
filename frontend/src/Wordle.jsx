@@ -100,11 +100,6 @@ useEffect(() => {
     }
   }
 
-  function getBlockedKeys() {
-    return Object.keys(keyStatuses).filter(
-      (letter) => keyStatuses[letter] === 'absent'
-    );
-  }
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -138,7 +133,7 @@ useEffect(() => {
         setTotalScore(result.data?.data?.totalscore || 0);
       } catch (error) {
         console.error('Error fetching score:', error.message);
-        setTotalScore(0); // fallback
+        setTotalScore(0); 
       }
     }
     if (scoreid) {
@@ -202,7 +197,7 @@ useEffect(() => {
           level={level}
         />
         <div style={{ marginTop: '2rem' }}>
-          <Keyboard onKeyPress={handleKeyPress} block={getBlockedKeys()} />
+          <Keyboard onKeyPress={handleKeyPress} />
         </div>
         {isGameOver && <Modal isCorrect={isCorrect} solution={solution} scoreid={scoreid} totalScore={totalScore} level ={level}
           onNextLevel={() => {
