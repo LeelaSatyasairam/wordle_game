@@ -162,7 +162,7 @@ function Wordle() {
           position: 'relative',
         }}
       >
-        {level == 5 ? <i
+        {level !== 5 ? <i
           className="fas fa-sign-out-alt"
           style={{
             position: 'absolute',
