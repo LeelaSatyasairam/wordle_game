@@ -9,7 +9,7 @@ import {
   getRandom4,
   getRandom5
 } from './utils/wordList';
-
+import LevelTower from './components/LevelTower';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -24,37 +24,37 @@ function Wordle() {
   const [totalScore, setTotalScore] = useState(0);
   const [level, setLevel] = useState(1)
 
-  // const[stage,setStage]=useState(0);
 
   const navigate = useNavigate();
   const scoreid = localStorage.getItem('personid');
   const API = import.meta.env.VITE_API_URL;
 
-// Create a function map
-const wordGetters = {
-  1: getRandom1,
-  2: getRandom2,
-  3: getRandom3,
-  4: getRandom4,
-  5: getRandom5
-};
+  // Create a function map
+  const wordGetters = {
+    1: getRandom1,
+    2: getRandom2,
+    3: getRandom3,
+    4: getRandom4,
+    5: getRandom5
+  };
 
-// In useEffect
-useEffect(() => {
-  const getter = wordGetters[level];
-  if (getter) {
-    setSolution(getter());
-  } else {
-    console.error(`Invalid level: ${level}`);
-  }
-}, [level]);
+  // In useEffect
+  useEffect(() => {
+    const getter = wordGetters[level];
+    if (getter) {
+      setSolution(getter());
+    } else {
+      console.error(`Invalid level: ${level}`);
+    }
+  }, [level]);
 
   useEffect(() => {
     if (note) {
-      const timer = setTimeout(() => setNote(false), 1000);
+      const timer = setTimeout(() => setNote(false), 500);
       return () => clearTimeout(timer);
     }
   }, [note]);
+
 
 
   function handleKeyPress(letter) {
@@ -133,14 +133,13 @@ useEffect(() => {
         setTotalScore(result.data?.data?.totalscore || 0);
       } catch (error) {
         console.error('Error fetching score:', error.message);
-        setTotalScore(0); 
+        setTotalScore(0);
       }
     }
     if (scoreid) {
       fetchScore();
     }
   }, []);
-
 
   return (
     <div
@@ -163,7 +162,7 @@ useEffect(() => {
           position: 'relative',
         }}
       >
-        {level!==5 ? <i
+        {level == 5 ? <i
           className="fas fa-sign-out-alt"
           style={{
             position: 'absolute',
@@ -175,7 +174,7 @@ useEffect(() => {
           }}
           title="Logout"
           onClick={handleLogout}
-        />:<i
+        /> : <i
           className="fa-solid fa-rotate"
           style={{
             position: 'absolute',
@@ -188,8 +187,20 @@ useEffect(() => {
           title="restart"
           onClick={handleRestart}
         />}
-        <h1 style={{ color: '#1a73e8' }}>Wordle Game</h1>
-        { level==1 ?<h4 style={{textAlign:'left',color:'gray'}}>🚩Hint try vowels</h4>:""}
+        <h1
+          style={{
+            background: 'linear-gradient(90deg, #00f260, #0575e6)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontFamily: 'Montserrat',
+            fontWeight: '800',
+            fontSize: '2rem',
+            textDecoration: 'underline',
+          }}
+        >
+          Wordle Game
+        </h1>
+        {level == 1 ? <h4 style={{ textAlign: 'left', color: 'gray' }}>🚩Hint try vowels</h4> : ""}
         <GameBoard
           guesses={guesses}
           currentGuess={currentGuess}
@@ -199,7 +210,7 @@ useEffect(() => {
         <div style={{ marginTop: '2rem' }}>
           <Keyboard onKeyPress={handleKeyPress} />
         </div>
-        {isGameOver && <Modal isCorrect={isCorrect} solution={solution} scoreid={scoreid} totalScore={totalScore} level ={level}
+        {isGameOver && <Modal isCorrect={isCorrect} solution={solution} scoreid={scoreid} totalScore={totalScore} level={level}
           onNextLevel={() => {
             setLevel((prevLevel) => {
               const nextLevel = Math.min(prevLevel + 1, 5);
@@ -220,34 +231,15 @@ useEffect(() => {
         )}
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          top: '2rem',
-          right: '2rem',
-          width: '180px',
-          backgroundColor: '#ffffff',
-          border: '1px solid #ddd',
-          borderRadius: '10px',
-          padding: '1rem',
-          boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-          fontSize: '0.9rem',
-        }}
-      >
-        <h3 style={{ marginTop: 0, marginBottom: '1rem', color: '#444' }}>
-          🧮{((localStorage.getItem('name')).split('@')[0]).toUpperCase()}
+      <div className="profile-card">
+        <h3 className="profile-name">
+          {(localStorage.getItem('name')?.split('@')[0] || '')}
         </h3>
-        <p><strong>Total score:</strong > {totalScore}</p>
-        <p><strong>Level:</strong > {level}</p>
-        {/* <p><strong>Stage:</strong> {stage > 0 ? `Stage ${stage}` : '-'}</p>
-           <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-            {[1, 2, 3, 4, 5].map((s) => (
-        <li key={s} style={{ marginBottom: '0.3rem' }}>
-          Stage {s}: {stage === s && isCorrect ? '✅' : '❌'}
-        </li>
-      ))}
-    </ul>  */}
+        <p><strong>Total score:</strong> {totalScore}</p>
+        <p><strong>Level:</strong> {level}</p>
+        <LevelTower level={level} />
       </div>
+      
     </div>
   );
 }

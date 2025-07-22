@@ -1,8 +1,11 @@
+
 body {
-background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132, 255, 0, 0.356));
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  background-size: 600% 600%;
+  animation: animatedGradient 20s ease infinite;
 }
-
-
 
 .app {
   text-align: center;
@@ -13,28 +16,45 @@ background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132,
   margin: 20px auto;
   width: max-content;
   padding: 20px;
-  /* border: 2px solid; */
 }
+
+
 
 .row {
   display: flex;
   margin-bottom: 5px;
 }
 
-
 .tile {
+  box-sizing: border-box;
   border: 2px solid;
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   margin: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 24px;
+  font-weight: 1000;
+  font-family: Montserrat;
+  font-size: 28px;
   text-transform: uppercase;
+  background: #FBFCFF;
+  border: 2px solid #dee1e9;
+  border-radius: 5px;
+  color:#393E4C;
+  transition: transform 0.6s ease, background 0.3s ease, color 0.3s ease;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
+/* Flip effect when state changes */
+.tile.correct,
+.tile.present,
+.tile.absent {
+  transform: rotateX(360deg);
+}
+
+/* Final styles after flip */
 .tile.correct {
   background: green;
   color: white;
@@ -50,21 +70,45 @@ background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132,
   color: white;
 }
 
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tile.pop {
+  animation: pop 150ms ease-in-out;
+}
 .keyboard {
   margin-top: 30px;
 }
 
 .key-row {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: stretch;
   margin-bottom: 5px
 }
 
 .key {
+  display: flex;
   margin: 3px;
   padding: 10px;
   font-size: 16px;
   font-weight: bold;
+  border: 2px solid transparent;
+  flex:1 1 ;
+  justify-content: center;
+  align-items: center;
+  background-color: #dce1ed;
+  color: #414a5e;
+  border-radius: 4px;
 }
 
 
@@ -82,26 +126,77 @@ background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132,
 
 
 .modal-content{
-  background-color: aliceblue;
+
+  background-color: #ffffff;
   align-items: center;
-  padding: 100px;
-  border-radius: 10px;
+  padding: 70px;
+  border-radius: 20px;
+  animation: fadeIn 0.2s linear forwards;
 }
 
-.modal-content button{
-  font-size:medium;
-  padding: 15px;
-  border-radius: 15px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content button {
+  font-size: 1rem;
+  padding: 15px 30px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  box-shadow: 0px 0px 20px rgba(255, 255, 0, 0.444) ;
-  background-color: #ffff00;
-  transition: 0.5s ;
+  background-color: #ffeb3b; 
+  color: #222;
+  font-weight: 600;
+  box-shadow:
+    0 4px 15px rgba(255, 235, 59, 0.5),
+    0 0 8px rgba(255, 255, 0, 0.4) inset;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.4s ease,
+    transform 0.25s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
 }
 
-.modal-content button:hover{
-  background-color: #ffff00a2;
-  transform: translateY(-4px);
+/* Optional glowing ring on hover */
+.modal-content button::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0px 0px rgba(255, 255, 0, 0.6);
+  opacity: 0;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.modal-content button:hover {
+  background-color: #fff176;
+  transform: translateY(-5px);
+  box-shadow:
+    0 6px 20px rgba(255, 235, 59, 0.6),
+    0 0 10px rgba(255, 255, 0, 0.6) inset;
+}
+
+.modal-content button:hover::after {
+  box-shadow: 0 0 20px 5px rgba(255, 255, 0, 0.6);
+  opacity: 1;
+}
+
+.modal-content button:active {
+  transform: scale(0.97);
+  background-color: #fdd835;
+  box-shadow:
+    0 2px 12px rgba(255, 235, 59, 0.4),
+    inset 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -191,12 +286,12 @@ background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132,
 
 
 .popupcontainer {
-  position: fixed;              /* Sit on top */
+  position: fixed;              
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);  /* dimmed background */
+  background-color: rgba(0, 0, 0, 0.4);  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,3 +314,67 @@ background-image: linear-gradient(to right, rgba(255, 238, 0, 0.449) , rgba(132,
 
 
 
+.profile-card {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 220px;
+  background: linear-gradient(to bottom right, #ffffff, #f3f4f6);
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.3s ease-in-out;
+  display: block; 
+}
+
+.profile-name {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tower {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 40px;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0 10px;
+}
+
+.bar {
+  width: 20px;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.bar.active {
+  background-color: #4ade80;
+  animation: grow 0.3s ease-in-out;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+
+@media screen and (max-width: 750px) {
+  .profile-card {
+    display: none; 
+  }
+}

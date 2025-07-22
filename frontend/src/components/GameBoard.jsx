@@ -7,7 +7,7 @@ function getTileStatus(letter, index, solution) {
   else return 'absent';
 }
 
-export default function GameBoard({ guesses, currentGuess, solution,level }) {
+export default function GameBoard({ guesses, currentGuess, solution, level }) {
   const rows = [...guesses];
   const currentRowIndex = guesses.length;
 
@@ -19,7 +19,7 @@ export default function GameBoard({ guesses, currentGuess, solution,level }) {
       {rows.map((word, i) => (
         <div className="row" key={i}>
           {Array.from({ length: level }).map((_, j) => (
-            <Tile key={j} letter={word[j]} status={i <currentRowIndex ?getTileStatus(word[j], j, solution): ''} />
+            <Tile key={j} letter={word[j]} status={i < currentRowIndex ? getTileStatus(word[j], j, solution) : ''} />
           ))}
         </div>
       ))}
